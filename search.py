@@ -28,10 +28,18 @@ def negamax_policy(board, depth, budget, alpha=-float('inf'), beta=float('inf'))
             break
     return max_score
 
-def choose_best_move_policy(board, depth, budget):
+def choose_best_move_policy(board, depth, budget, use_policy=False):
+    if use_policy:
+        moves_budget = allocate_budget(board, budget[0])
+    else:
+        # baseline uniform allocation
+        moves = generate_moves(board)
+        n = len(moves)
+        moves_budget = [(m, budget[0]//n) for m in moves] if n>0 else []
+
     best_score = -float('inf')
     best_move = None
-    moves_budget = allocate_budget(board, budget[0])
+
     for move, move_budget in moves_budget:
         if budget[0]<=0:
             break
@@ -45,4 +53,6 @@ def choose_best_move_policy(board, depth, budget):
         if score>best_score:
             best_score = score
             best_move = move
+
     return best_move
+

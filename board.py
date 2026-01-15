@@ -1,4 +1,3 @@
-# board.py
 EMPTY = 0
 P, N, B, R, Q, K = 1, 2, 3, 4, 5, 6
 
@@ -6,6 +5,7 @@ class Move:
     def __init__(self, from_sq, to_sq):
         self.from_sq = from_sq  # (rank,file)
         self.to_sq = to_sq      # (rank,file)
+
     def __repr__(self):
         return f"{self.from_sq}->{self.to_sq}"
 
@@ -19,6 +19,11 @@ class Board:
         self.board[1] = [-P]*8
         self.board[7][1] = self.board[7][6] = N
         self.board[0][1] = self.board[0][6] = -N
+
+    def setup_board(self, board_array, side_to_move=1):
+        """Setup board dari dataset atau array input"""
+        self.board = [row[:] for row in board_array]
+        self.side_to_move = side_to_move
 
     def apply_move(self, move):
         fr, to = move.from_sq, move.to_sq
